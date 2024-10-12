@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using System.Data;
 using Mss.App.Logger.Persistence.Repository.Context;
-using Mss.App.Logger.Utils.SQLUtils;
 using Mss.App.Logger.Models;
 using System.Reflection;
 using Mss.App.Logger.Constants.SqlConstants;
@@ -30,8 +29,6 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
     /// <returns>A <see cref="Task{TResult}"/> that returns a <see cref="Guid"/> representing the unique identifier of the inserted entity.</returns>
     public virtual async Task<Guid> InsertAsync(T entity)
     { 
-        await CreateTableIfNotExists<T>.CheckUndCreate(_dbContext, entity);
-
         using var connection = _dbContext.CreateConnection(SQLConstants.DataBaseName);
 
         var entityType = entity.GetType();

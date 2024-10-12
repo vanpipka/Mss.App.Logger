@@ -2,7 +2,9 @@
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Mss.App.Logger.Utils.SQLUtils;
-using Mss.App.Logger.Constants.SqlConstants;
+using Mss.App.Logger.Models;
+using Mss.App.Logger.Enums;
+
 
 namespace Mss.App.Logger.Persistence.Repository.Context;
 
@@ -26,9 +28,12 @@ public class DapperContext
         {
             throw new ArgumentNullException(nameof(configuration), "Connection string not found.");
         } 
+    }
 
-        var task = CreateDataBaseIfNotExists.CheckUndCreate(this);
-        task.Wait();
+    internal async Task InitializeAsync()
+    {
+        await CreateDataBaseIfNotExists.CheckUndCreate(this);
+        await CreateTableIfNotExists<LogEntry>.CheckUndCreate(this, new LogEntry(LogLevel.info, "Init", string.Empty, string.Empty));
     }
 
     internal IDbConnection CreateConnection(string dataBaseName = "")

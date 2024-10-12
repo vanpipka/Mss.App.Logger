@@ -1,8 +1,6 @@
 ﻿using Dapper;
-using Microsoft.Data.SqlClient;
 using Mss.App.Logger.Constants.SqlConstants;
 using Mss.App.Logger.Persistence.Repository.Context;
-using System.Data;
 
 namespace Mss.App.Logger.Utils.SQLUtils;
 

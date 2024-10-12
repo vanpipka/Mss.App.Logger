@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>Mss.App.Logger</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.3</Version>
     <Authors>vanpipka</Authors>
     <Company>vanpipka</Company>
     <PackageDescription>This package should contain all related to Logging.</PackageDescription>

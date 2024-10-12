@@ -20,7 +20,7 @@ internal static class CreateTableIfNotExists<T> where T : BaseModel
         await CreateTable(model, connection);
     }
 
-    internal async static Task<bool> TableExists(T model, IDbConnection connection)
+    private async static Task<bool> TableExists(T model, IDbConnection connection)
     {
         var command = new CommandDefinition($@"
                 SELECT CASE 
@@ -37,7 +37,7 @@ internal static class CreateTableIfNotExists<T> where T : BaseModel
         return tableExists == 1;
     }
 
-    internal async static Task<bool> CreateTable(T model, IDbConnection connection)
+    private async static Task<bool> CreateTable(T model, IDbConnection connection)
     {
         var command = new CommandDefinition(GenerateQueryText(model));
         var tableWasCreated = await connection.ExecuteAsync(command);

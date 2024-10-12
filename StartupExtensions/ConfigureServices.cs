@@ -31,6 +31,11 @@ public static class ConfigureServices
         services.AddSingleton<MssAppLogger>();
         services.AddSingleton(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
+        // Initialize database when services are built
+        var provider = services.BuildServiceProvider();
+        var dbInitializer = provider.GetRequiredService<DapperContext>();
+        dbInitializer.InitializeAsync().Wait();
+
         return services;
     }
 }
