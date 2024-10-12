@@ -1,0 +1,10 @@
+obj/
+bin/
+.vscode/
+bootstrap
+function.zip
+tpl.yaml
+*.pdb
+*.dbg
+.vs/
+NuGet.config
