@@ -32,6 +32,9 @@ public class LogEntry : BaseModel
     /// </summary>
     public string StackTrace { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Constructor for LogEntry
+    /// </summary>
     public LogEntry(LogLevel logLevel, string message, string exception, string stackTrace) 
     { 
         Timestamp = DateTime.Now;

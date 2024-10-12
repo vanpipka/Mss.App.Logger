@@ -3,15 +3,15 @@ using Microsoft.AspNetCore.Http;
 
 namespace Mss.App.Logger.Utils.RequestsUtils;
 
-public static class RequestInfoExtractor
+internal static class RequestInfoExtractor
 {
-    public static string GetFullUrl(HttpRequest request)
+    internal static string GetFullUrl(HttpRequest request)
     {
         var fullUrl = $"{request.Scheme}://{request.Host}{request.Path}{request.QueryString}";
         return fullUrl;
     }
 
-    public static string GetHeadersByLine(HttpRequest request)
+    internal static string GetHeadersByLine(HttpRequest request)
     {
         var headers = new List<string>();
 

@@ -6,9 +6,9 @@ using System.Data;
 
 namespace Mss.App.Logger.Utils.SQLUtils;
 
-public static class CreateTableIfNotExists<T> where T : BaseModel
+internal static class CreateTableIfNotExists<T> where T : BaseModel
 {
-    public async static Task CheckUndCreate(DapperContext context, T model)
+    internal async static Task CheckUndCreate(DapperContext context, T model)
     {
         using var connection = context.CreateConnection(SQLConstants.DataBaseName);
 
@@ -20,7 +20,7 @@ public static class CreateTableIfNotExists<T> where T : BaseModel
         await CreateTable(model, connection);
     }
 
-    private async static Task<bool> TableExists(T model, IDbConnection connection)
+    internal async static Task<bool> TableExists(T model, IDbConnection connection)
     {
         var command = new CommandDefinition($@"
                 SELECT CASE 
@@ -37,7 +37,7 @@ public static class CreateTableIfNotExists<T> where T : BaseModel
         return tableExists == 1;
     }
 
-    private async static Task<bool> CreateTable(T model, IDbConnection connection)
+    internal async static Task<bool> CreateTable(T model, IDbConnection connection)
     {
         var command = new CommandDefinition(GenerateQueryText(model));
         var tableWasCreated = await connection.ExecuteAsync(command);
@@ -50,7 +50,7 @@ public static class CreateTableIfNotExists<T> where T : BaseModel
         return tableWasCreated != -1;
     }
 
-    private static string GenerateQueryText(T model)
+    internal static string GenerateQueryText(T model)
     {
         var tableName = typeof(T).Name; // Имя таблицы будет таким же, как и имя модели
         var properties = typeof(T).GetProperties();

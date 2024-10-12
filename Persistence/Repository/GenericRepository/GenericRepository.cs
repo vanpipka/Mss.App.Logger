@@ -8,15 +8,26 @@ using Mss.App.Logger.Constants.SqlConstants;
 
 namespace Mss.App.Logger.Persistence.Repository.GenericRepository;
 
+/// <summary>
+/// Defines a generic repository for performing basic CRUD operations on models that inherit from <see cref="BaseModel"/>.
+/// </summary>
 public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
 {
-    protected readonly DapperContext _dbContext;
+    private readonly DapperContext _dbContext;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GenericRepository"/> class.
+    /// </summary>
     public GenericRepository(DapperContext context)
     {
         _dbContext = context;
     }
 
+    /// <summary>
+    /// Asynchronously inserts an entity into the database and returns its unique identifier.
+    /// </summary>
+    /// <param name="entity">The entity to insert, which must inherit from <see cref="BaseModel"/>.</param>
+    /// <returns>A <see cref="Task{TResult}"/> that returns a <see cref="Guid"/> representing the unique identifier of the inserted entity.</returns>
     public virtual async Task<Guid> InsertAsync(T entity)
     { 
         await CreateTableIfNotExists<T>.CheckUndCreate(_dbContext, entity);
@@ -47,6 +58,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
         return recordId;
     }
 
+    /// <summary>
+    /// Asynchronously retrieves an entity from the database by its unique identifier.
+    /// </summary>
+    /// <param name="id">The <see cref="Guid"/> of the entity to retrieve.</param>
+    /// <returns>A <see cref="Task{TResult}"/> that returns the entity of type <typeparamref name="T"/> if found, or <c>null</c> if not.</returns>
     public virtual async Task<T> GetAsync(Guid id)
     {
         using var connection = _dbContext.CreateConnection();
@@ -57,7 +73,12 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
         var parameters = new DynamicParameters();
         parameters.Add("Id", id);
 
-        var objects = await connection.QuerySingleOrDefaultAsync<T>(query, param: parameters, commandType: CommandType.Text);
-        return objects;
+        var record = await connection.QuerySingleOrDefaultAsync<T>(query, param: parameters, commandType: CommandType.Text);
+
+        if (record == null)
+        {
+            throw new InvalidOperationException($"The query did not return any records by id {id}.");
+        }
+        return record;
     }
 }

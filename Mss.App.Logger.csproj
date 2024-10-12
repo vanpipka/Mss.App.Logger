@@ -6,7 +6,6 @@
     <Nullable>enable</Nullable>
     <AnalysisMode>Recommended</AnalysisMode>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-
     <OutputType>Library</OutputType>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>Mss.App.Logger</PackageId>
@@ -15,9 +14,11 @@
     <Company>vanpipka</Company>
     <PackageDescription>This package should contain all related to Logging.</PackageDescription>
     <RepositoryUrl>https://github.com/vanpipka/mss.app.logger</RepositoryUrl>
+    <PackageTags>MSSAppLogger</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath=""/>
     <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
