@@ -34,6 +34,8 @@ public class DapperContext
     {
         await CreateDataBaseIfNotExists.CheckUndCreate(this);
         await CreateTableIfNotExists<LogEntry>.CheckUndCreate(this, new LogEntry(LogLevel.info, "Init", string.Empty, string.Empty));
+        await CreateTableIfNotExists<Tags>.CheckUndCreate(this, new Tags(string.Empty));
+        await CreateTableIfNotExists<LogEntryTags>.CheckUndCreate(this, new LogEntryTags());
     }
 
     internal IDbConnection CreateConnection(string dataBaseName = "")

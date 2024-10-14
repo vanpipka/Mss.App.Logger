@@ -2,6 +2,7 @@
 using Mss.App.Logger.Constants.SqlConstants;
 using Mss.App.Logger.Models;
 using Mss.App.Logger.Persistence.Repository.Context;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 
 namespace Mss.App.Logger.Utils.SQLUtils;
@@ -50,7 +51,7 @@ internal static class CreateTableIfNotExists<T> where T : BaseModel
         return tableWasCreated != -1;
     }
 
-    internal static string GenerateQueryText(T model)
+    private static string GenerateQueryText(T model)
     {
         var tableName = typeof(T).Name; // Имя таблицы будет таким же, как и имя модели
         var properties = typeof(T).GetProperties();
@@ -59,6 +60,11 @@ internal static class CreateTableIfNotExists<T> where T : BaseModel
 
         foreach (var property in properties)
         {
+            if (Attribute.IsDefined(property, typeof(NotMappedAttribute))) 
+            {
+                continue;
+            }
+
             var columnName = property.Name;
             var columnType = property.PropertyType.Name; // Получаем тип свойства
 
